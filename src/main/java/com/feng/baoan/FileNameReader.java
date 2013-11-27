@@ -39,23 +39,25 @@ public class FileNameReader
 
         if ( allFiles != null ) {
             for ( File file : allFiles ) {
-                String totalName = file.getName();
-                int index = totalName.lastIndexOf('.');
-                String fileExt = "";
-                String fileName = "";
-                if ( index > 0 ) {
-                    fileExt = totalName.substring(index + 1);
-                    fileName = totalName.substring(0, index);
-                }
-                if ( extension.equals("") || extension.equals(fileExt) ) {
-                    fileNames.add(fileName);
+                if ( file.isFile() ) {
+                    String totalName = file.getName();
+                    int index = totalName.lastIndexOf('.');
+                    String fileExt = "";
+                    String fileName = "";
+                    if ( index > 0 ) {
+                        fileExt = totalName.substring(index + 1);
+                        fileName = totalName.substring(0, index);
+                    }
+                    if ( extension.equals("") || extension.equals(fileExt) ) {
+                        fileNames.add(fileName);
+                    }
                 }
             }
         }
     }
 
     static void writeXLS() {
-        String strFile = path + "list.xls";
+        String strFile = getCurrentPath() + System.getProperty("file.separator") + "list.xls";
         File file = new File(strFile);
         if ( file.exists() ) {
             if ( !file.delete() ) {
@@ -131,6 +133,9 @@ public class FileNameReader
         else {
             Element element = (Element)list.item(0);
             extension = element.getTextContent();
+            if ( null == extension ) {
+                extension = "";
+            }
         }
 
         return true;

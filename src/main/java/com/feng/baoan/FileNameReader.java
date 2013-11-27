@@ -42,10 +42,11 @@ public class FileNameReader
                 String totalName = file.getName();
                 int index = totalName.lastIndexOf('.');
                 String fileExt = "";
+                String fileName = "";
                 if ( index > 0 ) {
                     fileExt = totalName.substring(index + 1);
+                    fileName = totalName.substring(0, index);
                 }
-                String fileName = totalName.substring(0, index);
                 if ( extension.equals("") || extension.equals(fileExt) ) {
                     fileNames.add(fileName);
                 }
@@ -120,7 +121,7 @@ public class FileNameReader
         }
         else {
             Element element = (Element)list.item(0);
-            path = element.getNodeValue();
+            path = element.getTextContent();
         }
 
         list = rootElement.getElementsByTagName("extension");
@@ -129,7 +130,7 @@ public class FileNameReader
         }
         else {
             Element element = (Element)list.item(0);
-            extension = element.getNodeValue();
+            extension = element.getTextContent();
         }
 
         return true;

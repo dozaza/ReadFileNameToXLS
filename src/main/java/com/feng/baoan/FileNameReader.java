@@ -39,7 +39,7 @@ public class FileNameReader
 
         if ( allFiles != null ) {
             for ( File file : allFiles ) {
-                if ( file.isFile() ) {
+                if ( file.isFile() && !file.isHidden() ) {
                     String totalName = file.getName();
                     int index = totalName.lastIndexOf('.');
                     String fileExt = "";
@@ -74,8 +74,8 @@ public class FileNameReader
             newBook = Workbook.createWorkbook(file);
 
             sheet = newBook.createSheet("FileNames", 0);
-            Label label1 = new Label(0, 0, "File Name");
-            sheet.addCell(label1);
+            //Label label1 = new Label(0, 0, "File Name");
+            //sheet.addCell(label1);
 
             for ( String fileName : fileNames ) {
                 int nRow = sheet.getRows();
@@ -124,6 +124,9 @@ public class FileNameReader
         else {
             Element element = (Element)list.item(0);
             path = element.getTextContent();
+            if ( null == path || path.equals("") ) {
+                path = getCurrentPath();
+            }
         }
 
         list = rootElement.getElementsByTagName("extension");
